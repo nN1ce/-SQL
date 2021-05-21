@@ -33,3 +33,12 @@ select * from printer where color='y'
 Select model, speed, hd from pc where ((cd = '12x' or cd='24x') and price<600)
 -------------------------------------------------------------------------
 
+Задание: 6 (Serge I: 2002-10-28)
+Для каждого производителя, выпускающего ПК-блокноты c объёмом жесткого диска не менее 10 Гбайт, найти скорости таких ПК-блокнотов. Вывод: производитель, скорость.
+
+Решение:
+select distinct maker, speed from laptop join(
+select * from product where type = 'laptop'
+) table_A on laptop.model = table_A.model where hd >=10
+---------------------------------------------------------------------------
+
