@@ -2,43 +2,116 @@
 Найдите номер модели, скорость и размер жесткого диска для всех ПК стоимостью менее 500 дол. Вывести: model, speed и hd
 
 Решение: 
-SELECT model, speed, hd FROM PC where price<500
+1. select model, speed, hd from pc
+where price < 500
+
 --------------------------------------------------------------------
 
 Задание: 2 (Serge I: 2002-09-21)
 Найдите производителей принтеров. Вывести: maker
 
 Решение:
-SELECT distinct maker FROM product where type='Printer'
+2.Select distinct maker from product
+where type = 'printer'
 --------------------------------------------------------------------
 
 Задание: 3 (Serge I: 2002-09-30)
 Найдите номер модели, объем памяти и размеры экранов ПК-блокнотов, цена которых превышает 1000 дол.
 
 Решение:
-Select model, ram, screen from laptop where price>1000
+3.select model, ram, screen from laptop
+where price > 1000
 --------------------------------------------------------------------
 
 Задание: 4 (Serge I: 2002-09-21)
 Найдите все записи таблицы Printer для цветных принтеров.
 
 Решение:
-select * from printer where color='y'
+4.select * from printer
+where color = 'y'
 ---------------------------------------------------------------------
 
 Задание: 5 (Serge I: 2002-09-30)
 Найдите номер модели, скорость и размер жесткого диска ПК, имеющих 12x или 24x CD и цену менее 600 дол.
 
 Решение:
-Select model, speed, hd from pc where ((cd = '12x' or cd='24x') and price<600)
+5.Select model, speed, hd from pc
+where (cd = '12x' or cd = '24x') and price < 600
 -------------------------------------------------------------------------
 
 Задание: 6 (Serge I: 2002-10-28)
 Для каждого производителя, выпускающего ПК-блокноты c объёмом жесткого диска не менее 10 Гбайт, найти скорости таких ПК-блокнотов. Вывод: производитель, скорость.
 
-Решение:
-select distinct maker, speed from laptop join(
-select * from product where type = 'laptop'
-) table_A on laptop.model = table_A.model where hd >=10
+6.select distinct product.maker, laptop.speed from product join laptop 
+on product.model = laptop.model
+where hd >= 10
+--------------------------------------------------------------------------
+
+7.Найдите номера моделей и цены всех имеющихся в продаже продуктов (любого типа) производителя B (латинская буква).
+
+7.select product.model, laptop.price from product  join laptop
+on product.model = laptop.model
+where maker = 'B'
+union
+select product.model, pc.price from product  join pc
+on product.model = pc.model
+where maker = 'B'
+union
+select product.model, printer.price from product  join printer
+on product.model = printer.model
+where maker = 'B'
+-----------------------------------------------------------------------------
+
+8.Задание: 8 (Serge I: 2003-02-03)
+Найдите производителя, выпускающего ПК, но не ПК-блокноты.
+
+8.SELECT DISTINCT maker FROM product
+where type = 'pc' AND maker NOT IN ( SELECT maker FROM product 
+WHERE type = 'laptop')
 ---------------------------------------------------------------------------
+
+Задание: 9 (Serge I: 2002-11-02)
+Найдите производителей ПК с процессором не менее 450 Мгц. Вывести: Maker
+
+Select DISTINCT product.maker FROM product JOIN pc
+ON product.model = pc.model 
+where speed >= 450
+----------------------------------------------------------------------------
+
+Задание: 10 (Serge I: 2002-09-23)
+Найдите модели принтеров, имеющих самую высокую цену. Вывести: model, price
+
+Select model, price from printer
+where price = ( select MAX (price) FROM printer)
+---------------------------------------------------------------------
+
+11.Задание: 11 (Serge I: 2002-11-02)
+Найдите среднюю скорость ПК.
+
+SELECT AVG(speed) FROM pc
+----------------------------------------------------------------
+
+12.Задание: 12 (Serge I: 2002-11-02)
+Найдите среднюю скорость ПК-блокнотов, цена которых превышает 1000 дол.
+
+Select AVG(speed) from laptop
+where price > 1000
+----------------------------------------------------------------
+
+13.адание: 13 (Serge I: 2002-11-02)
+Найдите среднюю скорость ПК, выпущенных производителем A.
+
+Select AVG(speed) from product join pc
+ON product.model = pc.model
+WHERE maker = 'A'
+--------------------------------------------------------------
+
+14.Задание: 14 (Serge I: 2002-11-05)
+Найдите класс, имя и страну для кораблей из таблицы Ships, имеющих не менее 10 орудий.
+
+Select ships.class, name, country from classes join ships
+on classes.class = ships.class
+WHERE numguns >= 10
+------------------------------------------------------------------
+
 
